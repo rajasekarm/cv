@@ -3,6 +3,8 @@ export interface Project {
   year: number;
   description: string;
   repoUrl?: string;
+  /** Internal detail page on this site, e.g. "/velo". */
+  href?: string;
 }
 
 export const projects: Project[] = [
@@ -12,5 +14,6 @@ export const projects: Project[] = [
     description:
       "Agentic engineering team — PRD to commit, fully agent-driven. Built on Claude.",
     repoUrl: "https://github.com/rajasekarm/velo",
+    href: "/velo",
   },
 ];

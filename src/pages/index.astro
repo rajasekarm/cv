@@ -49,7 +49,13 @@ import "../styles/global.css";
               projects.map((project) => (
                 <li class="work-item">
                   <div class="work-item-header">
-                    <span class="work-item-name">{project.name}</span>
+                    {project.href ? (
+                      <a class="work-item-name work-item-name-link" href={project.href}>
+                        {project.name}
+                      </a>
+                    ) : (
+                      <span class="work-item-name">{project.name}</span>
+                    )}
                     <span class="work-item-year">{project.year}</span>
                   </div>
                   <p class="work-item-description">{project.description}</p>

@@ -1,0 +1,287 @@
+---
+import "../styles/global.css";
+
+const stats = [
+  { value: "6", label: "specialist roles" },
+  { value: "5", label: "approval gates" },
+  { value: "4", label: "commands" },
+  { value: "1", label: "engineering manager" },
+];
+
+const pipeline = [
+  { step: "PRD", desc: "The Product Manager turns the ask into a reviewable spec." },
+  { step: "Design", desc: "The Tech Lead writes the engineering design and owns the trade-offs." },
+  { step: "Build", desc: "Frontend, backend, and specialist engineers implement in parallel." },
+  { step: "Review", desc: "Adversarial review and verification before anything lands." },
+  { step: "Commit", desc: "Nothing ships without your explicit sign-off." },
+];
+
+const team = [
+  { role: "Engineering Manager", note: "Orchestrates the run and holds every gate." },
+  { role: "Product Manager", note: "Scopes the work into a reviewable spec." },
+  { role: "Tech Lead", note: "Owns architecture and technical trade-offs." },
+  { role: "Specialists", note: "Security, database, and infra engineers go deep where it matters." },
+  { role: "Builders", note: "Frontend and backend engineers, working in parallel." },
+  { role: "Reviewers", note: "Adversarial review and verification before commit." },
+];
+
+const commands = [
+  { cmd: "/velo new", desc: "Start net-new work. Mandates planning before any code is written." },
+  { cmd: "/velo task", desc: "Hand the Engineering Manager a task; it delegates to the team." },
+  { cmd: "/velo yo", desc: "Open discussion. Get advice before you decide to build." },
+  { cmd: "/velo hunt", desc: "Structured debug loop: symptom → hypothesis → root cause → handoff." },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta
+      name="description"
+      content="velo — an engineering team for Claude Code. A gated pipeline that takes a brief from PRD to commit."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="velo — an engineering team for Claude Code" />
+    <meta
+      property="og:description"
+      content="A gated pipeline that takes a brief from PRD to commit, with your approval at every gate."
+    />
+    <title>velo — an engineering team for Claude Code</title>
+  </head>
+  <body>
+    <div class="container">
+      <main class="page">
+        <section aria-labelledby="velo-heading">
+          <h1 id="velo-heading" class="about-greeting">velo</h1>
+          <h2 class="about-headline">An engineering team for Claude Code.</h2>
+          <div class="about-bio">
+            <p>
+              velo is a Claude Code plugin that turns a brief into shipped code through a
+              gated pipeline. An Engineering Manager coordinates a team of specialist
+              engineers — product, architecture, build, and review — and you approve the
+              work at every gate.
+            </p>
+            <p>
+              You direct it; you don't babysit it. Work only moves forward when you say so,
+              and nothing reaches a commit without your sign-off.
+            </p>
+          </div>
+          <ul class="stat-row" role="list">
+            {
+              stats.map((s) => (
+                <li class="stat">
+                  <span class="stat-value">{s.value}</span>
+                  <span class="stat-label">{s.label}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+
+        <section aria-labelledby="pipeline-heading">
+          <h2 class="section-label" id="pipeline-heading">Pipeline</h2>
+          <p class="section-lede">
+            Every feature runs the same five gated stages. You sign off at each one.
+          </p>
+          <ol class="def-list" role="list">
+            {
+              pipeline.map((p, i) => (
+                <li class="def-row">
+                  <span class="def-term">
+                    <span class="def-index">{String(i + 1).padStart(2, "0")}</span>
+                    {p.step}
+                  </span>
+                  <span class="def-desc">{p.desc}</span>
+                </li>
+              ))
+            }
+          </ol>
+        </section>
+
+        <section aria-labelledby="team-heading">
+          <h2 class="section-label" id="team-heading">Workforce</h2>
+          <p class="section-lede">One Engineering Manager coordinating six specialist roles.</p>
+          <ul class="def-list" role="list">
+            {
+              team.map((t) => (
+                <li class="def-row">
+                  <span class="def-term">{t.role}</span>
+                  <span class="def-desc">{t.note}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+
+        <section aria-labelledby="commands-heading">
+          <h2 class="section-label" id="commands-heading">Commands</h2>
+          <p class="section-lede">Four commands are the whole interface.</p>
+          <ul class="def-list" role="list">
+            {
+              commands.map((c) => (
+                <li class="def-row">
+                  <code class="def-term def-cmd">{c.cmd}</code>
+                  <span class="def-desc">{c.desc}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+
+        <section aria-labelledby="install-heading">
+          <h2 class="section-label" id="install-heading">Install</h2>
+          <p class="section-lede">A Claude Code plugin. Install once, use in any project.</p>
+          <pre class="install"><code>claude plugin install velo</code></pre>
+          <p class="repo-link">
+            <a href="https://github.com/rajasekarm/velo" target="_blank" rel="noopener noreferrer">
+              github.com/rajasekarm/velo
+            </a>
+          </p>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
+
+<style>
+  .back-link {
+    display: inline-block;
+    font-size: 13px;
+    color: #767676;
+    text-decoration: none;
+    margin-bottom: 48px;
+    border-bottom: 1px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+  }
+
+  .back-link:hover {
+    color: #000;
+    border-bottom-color: #000;
+  }
+
+  /* Stat row */
+  .stat-row {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    margin-top: 28px;
+    max-width: 680px;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .stat-value {
+    font-size: 22px;
+    font-weight: 700;
+    color: #000;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: #888;
+  }
+
+  /* Section lede */
+  .section-lede {
+    font-size: 15px;
+    color: #444;
+    line-height: 1.6;
+    max-width: 680px;
+    margin-top: -8px;
+    margin-bottom: 24px;
+  }
+
+  /* Definition rows (pipeline / team / commands) */
+  .def-list {
+    list-style: none;
+    max-width: 680px;
+  }
+
+  .def-row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 24px;
+    padding: 16px 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .def-row:first-child {
+    border-top: 1px solid #f0f0f0;
+  }
+
+  .def-term {
+    font-size: 15px;
+    font-weight: 600;
+    color: #000;
+  }
+
+  .def-index {
+    display: inline-block;
+    width: 28px;
+    font-variant-numeric: tabular-nums;
+    color: #bbb;
+    font-weight: 400;
+  }
+
+  .def-cmd {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 14px;
+  }
+
+  .def-desc {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.55;
+  }
+
+  /* Install */
+  .install {
+    max-width: 680px;
+    background: #f6f6f6;
+    border: 1px solid #ececec;
+    border-radius: 6px;
+    padding: 14px 16px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 14px;
+    color: #111;
+    overflow-x: auto;
+  }
+
+  .repo-link {
+    margin-top: 20px;
+    font-size: 13px;
+  }
+
+  .repo-link a {
+    color: #767676;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+  }
+
+  .repo-link a:hover {
+    color: #000;
+    border-bottom-color: #000;
+  }
+
+  @media (max-width: 640px) {
+    .def-row {
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+
+    .stat-row {
+      gap: 28px;
+    }
+  }
+</style>
