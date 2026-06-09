@@ -1,0 +1,74 @@
+---
+import { about } from "../data/about";
+import { projects } from "../data/projects";
+import "../styles/global.css";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta
+      name="description"
+      content="Raja Sekhar M — Staff Engineer building AI-native product experiences end-to-end."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Raja Sekhar M" />
+    <meta
+      property="og:description"
+      content="Raja Sekhar M — Staff Engineer building AI-native product experiences end-to-end."
+    />
+    <title>Raja Sekhar M</title>
+  </head>
+  <body>
+    <div class="container">
+      <main class="page">
+
+        <!-- About section -->
+        <section aria-labelledby="about-heading">
+          <h1 id="about-heading" class="about-greeting">{about.greeting}</h1>
+          <h2 class="about-headline">{about.headline}</h2>
+          <div class="about-bio">
+            {about.bio.map((paragraph) => <p>{paragraph}</p>)}
+          </div>
+          <nav class="about-links" aria-label="Social links">
+            <a href={about.links.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href={about.links.github} target="_blank" rel="noopener noreferrer">GitHub</a>
+          </nav>
+        </section>
+
+
+        <!-- Work section -->
+        <section aria-labelledby="work-heading">
+          <h2 class="section-label" id="work-heading">Projects</h2>
+          <ul class="work-list" role="list">
+            {
+              projects.map((project) => (
+                <li class="work-item">
+                  <div class="work-item-header">
+                    <span class="work-item-name">{project.name}</span>
+                    <span class="work-item-year">{project.year}</span>
+                  </div>
+                  <p class="work-item-description">{project.description}</p>
+                  {project.repoUrl && (
+                    <a
+                      class="work-item-link"
+                      href={project.repoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {project.repoUrl.replace("https://", "")}
+                    </a>
+                  )}
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
