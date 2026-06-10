@@ -5,6 +5,10 @@ import { cvMarkdown } from "../data/markdown";
 import "../styles/global.css";
 
 const markdown = cvMarkdown(Astro.site?.origin ?? "");
+const headlineBase = about.headline.replace(/\.$/, "");
+
+/** Phrase to bold wherever it appears in the bio. */
+const highlight = "AI-native product engineer";
 ---
 
 <!doctype html>
@@ -48,9 +52,22 @@ const markdown = cvMarkdown(Astro.site?.origin ?? "");
         <!-- About section -->
         <section aria-labelledby="about-heading">
           <h1 id="about-heading" class="about-greeting">{about.greeting}</h1>
-          <h2 class="about-headline">{about.headline}</h2>
+          <h2 class="about-headline">
+            {headlineBase} <span class="thinking-dots" aria-hidden="true"><span>.</span><span>.</span><span>.</span></span>
+          </h2>
           <div class="about-bio">
-            {about.bio.map((paragraph) => <p>{paragraph}</p>)}
+            {
+              about.bio.map((paragraph) => (
+                <p>
+                  {paragraph.split(highlight).map((part, i, parts) => (
+                    <>
+                      {part}
+                      {i < parts.length - 1 && <strong>{highlight}</strong>}
+                    </>
+                  ))}
+                </p>
+              ))
+            }
           </div>
           <nav class="about-links" aria-label="Social links">
             <a href={about.links.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
