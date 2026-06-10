@@ -1,7 +1,10 @@
 ---
 import { about } from "../data/about";
 import { projects } from "../data/projects";
+import { cvMarkdown } from "../data/markdown";
 import "../styles/global.css";
+
+const markdown = cvMarkdown(Astro.site?.origin ?? "");
 ---
 
 <!doctype html>
@@ -13,20 +16,35 @@ import "../styles/global.css";
     <meta name="generator" content={Astro.generator} />
     <meta
       name="description"
-      content="Raja Sekhar M — Staff Engineer building AI-native product experiences end-to-end."
+      content="Raja Sekar — Staff Engineer building AI-native product experiences end-to-end."
     />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Raja Sekhar M" />
+    <meta property="og:title" content="Raja Sekar M" />
     <meta
       property="og:description"
-      content="Raja Sekhar M — Staff Engineer building AI-native product experiences end-to-end."
+      content="Raja Sekar — Staff Engineer building AI-native product experiences end-to-end."
     />
-    <title>Raja Sekhar M</title>
+    <title>Raja Sekar M</title>
   </head>
   <body>
     <div class="container">
       <main class="page">
 
+        <!-- Human / AI version toggle -->
+        <div class="version-toggle" role="group" aria-label="Page version">
+          <button type="button" id="human-toggle" class="version-button is-active" aria-pressed="true">Human</button>
+          <button type="button" id="ai-toggle" class="version-button" aria-pressed="false">AI</button>
+        </div>
+
+        <!-- AI version: plain markdown for language models -->
+        <section id="ai-view" aria-label="AI-readable version" hidden>
+          <p class="ai-view-note">
+            Markdown for language models — also at <a href="/llms.txt">/llms.txt</a>.
+          </p>
+          <pre class="ai-view-markdown"><code>{markdown}</code></pre>
+        </section>
+
+        <div id="human-view">
         <!-- About section -->
         <section aria-labelledby="about-heading">
           <h1 id="about-heading" class="about-greeting">{about.greeting}</h1>
@@ -74,7 +92,28 @@ import "../styles/global.css";
             }
           </ul>
         </section>
+        </div>
       </main>
     </div>
+
+    <script>
+      const humanToggle = document.getElementById("human-toggle")!;
+      const aiToggle = document.getElementById("ai-toggle")!;
+      const humanView = document.getElementById("human-view")!;
+      const aiView = document.getElementById("ai-view")!;
+
+      function setVersion(version: "human" | "ai") {
+        const isAi = version === "ai";
+        humanView.hidden = isAi;
+        aiView.hidden = !isAi;
+        humanToggle.classList.toggle("is-active", !isAi);
+        aiToggle.classList.toggle("is-active", isAi);
+        humanToggle.setAttribute("aria-pressed", String(!isAi));
+        aiToggle.setAttribute("aria-pressed", String(isAi));
+      }
+
+      humanToggle.addEventListener("click", () => setVersion("human"));
+      aiToggle.addEventListener("click", () => setVersion("ai"));
+    </script>
   </body>
 </html>

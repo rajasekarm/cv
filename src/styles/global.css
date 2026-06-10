@@ -53,6 +53,66 @@ body {
   margin-bottom: 20px;
 }
 
+/* Human / AI version toggle */
+.version-toggle {
+  display: inline-flex;
+  border: 1px solid #e0e0e0;
+  border-radius: 999px;
+  padding: 2px;
+  margin-bottom: 40px;
+}
+
+.version-button {
+  font-family: inherit;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  color: #767676;
+  background: none;
+  border: none;
+  border-radius: 999px;
+  padding: 4px 14px;
+  cursor: pointer;
+  transition: color 0.15s, background-color 0.15s;
+}
+
+.version-button:hover {
+  color: #000;
+}
+
+.version-button.is-active {
+  background: #000;
+  color: #fff;
+}
+
+/* AI version */
+.ai-view-note {
+  font-size: 13px;
+  color: #767676;
+  margin-bottom: 20px;
+}
+
+.ai-view-note a {
+  color: inherit;
+}
+
+.ai-view-note a:hover {
+  color: #000;
+}
+
+.ai-view-markdown {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #333;
+  background: #fafafa;
+  border: 1px solid #f0f0f0;
+  border-radius: 6px;
+  padding: 24px;
+  max-width: 680px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+}
+
 /* About section */
 .about-greeting {
   font-size: 30px;
