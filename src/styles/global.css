@@ -1,3 +1,46 @@
+/* ============================================================
+   Design tokens
+   ============================================================ */
+:root {
+  /* Light — warm paper */
+  --bg: #fcfcfa;
+  --surface: #f3f3ed;
+  --ink: #171715;
+  --ink-soft: #3a3a36;
+  --muted: #6e6e68;
+  --faint: #9a9a93;
+  --rule: #e6e5dd;
+  --accent: #bd5a3e;
+  --accent-soft: rgba(189, 90, 62, 0.14);
+  --accent-ink: #fff;
+
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua",
+    Georgia, ui-serif, serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --measure: 40rem; /* reading column */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #131312;
+    --surface: #1d1d1a;
+    --ink: #f3f1ec;
+    --ink-soft: #d2d0c9;
+    --muted: #9a988f;
+    --faint: #74726a;
+    --rule: #2a2a26;
+    --accent: #e08763;
+    --accent-soft: rgba(224, 135, 99, 0.16);
+    --accent-ink: #16150f;
+  }
+}
+
+/* ============================================================
+   Reset + base
+   ============================================================ */
 *,
 *::before,
 *::after {
@@ -11,163 +54,202 @@ html {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background: #fff;
-  color: #000;
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--ink-soft);
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-/* Layout */
+::selection {
+  background: var(--accent-soft);
+  color: var(--ink);
+}
+
+/* ============================================================
+   Layout
+   ============================================================ */
 .container {
-  max-width: 1000px;
+  max-width: 50rem;
   margin: 0;
-  padding: 0 48px;
+  padding: 0 3rem;
 }
 
 .page {
-  padding-top: 64px;
-  padding-bottom: 96px;
+  position: relative;
+  padding-top: 4.5rem;
+  padding-bottom: 6rem;
 }
 
-/* Top hairline */
-.top-rule {
-  border: none;
-  border-top: 1px solid #e0e0e0;
-  margin-bottom: 56px;
-}
-
-/* Section divider */
-.section-divider {
-  border: none;
-  border-top: 1px solid #e0e0e0;
-  margin: 48px 0;
-}
-
-/* Section labels */
 .section-label {
-  font-size: 12px;
-  font-weight: 400;
-  letter-spacing: 0.15em;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: #767676;
-  margin-bottom: 20px;
+  color: var(--faint);
+  margin-bottom: 1.25rem;
 }
 
-/* Human / AI version toggle */
+.page section + section {
+  margin-top: 4.5rem;
+}
+
+/* ============================================================
+   Generative reveal + cursor
+   ============================================================ */
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(7px);
+    filter: blur(3px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal] {
+    opacity: 0;
+    animation: reveal 0.65s cubic-bezier(0.21, 0.6, 0.25, 1) both;
+    animation-delay: var(--d, 0s);
+  }
+}
+
+.cursor {
+  display: inline-block;
+  width: 0.46ch;
+  height: 1em;
+  margin-left: 0.14em;
+  background: var(--accent);
+  border-radius: 1px;
+  vertical-align: -0.12em;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .cursor {
+    animation: blink 1.15s steps(1) infinite;
+    /* hold until the hero has finished streaming in */
+    animation-delay: 0.9s;
+  }
+}
+
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  50.01%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ============================================================
+   Human / AI toggle
+   ============================================================ */
 .version-toggle {
-  display: inline-flex;
-  border: 1px solid #e0e0e0;
-  border-radius: 999px;
-  padding: 2px;
-  margin-bottom: 40px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.1rem;
+  margin-bottom: 2.75rem;
 }
 
 .version-button {
   font-family: inherit;
-  font-size: 12px;
-  letter-spacing: 0.05em;
-  color: #767676;
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+  color: var(--muted);
   background: none;
   border: none;
-  border-radius: 999px;
-  padding: 4px 14px;
+  border-bottom: 1px solid transparent;
+  padding: 2px 2px 1px;
   cursor: pointer;
-  transition: color 0.15s, background-color 0.15s;
+  transition: color 0.15s, border-color 0.15s;
 }
 
 .version-button:hover {
-  color: #000;
+  color: var(--ink);
 }
 
 .version-button.is-active {
-  background: #000;
-  color: #fff;
+  color: var(--ink);
+  border-bottom-color: var(--accent);
 }
 
-/* AI version */
+.version-sep {
+  color: var(--faint);
+  font-size: 0.8rem;
+  padding: 0 0.45rem;
+  user-select: none;
+}
+
+/* ============================================================
+   AI view
+   ============================================================ */
 .ai-view-note {
-  font-size: 13px;
-  color: #767676;
-  margin-bottom: 20px;
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-bottom: 1.25rem;
 }
 
 .ai-view-note a {
-  color: inherit;
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s;
 }
 
 .ai-view-note a:hover {
-  color: #000;
+  border-bottom-color: var(--accent);
 }
 
 .ai-view-markdown {
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 13px;
-  line-height: 1.6;
-  color: #333;
-  background: #fafafa;
-  border: 1px solid #f0f0f0;
-  border-radius: 6px;
-  padding: 24px;
-  max-width: 680px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 1.5rem;
+  max-width: var(--measure);
   overflow-x: auto;
   white-space: pre-wrap;
 }
 
-/* About section */
+/* ============================================================
+   About / hero
+   ============================================================ */
 .about-greeting {
-  font-size: 30px;
-  font-weight: 700;
-  color: #000;
-  line-height: 1.2;
-  margin-bottom: 12px;
+  font-family: var(--font-serif);
+  font-size: clamp(2.2rem, 6vw, 3.1rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.04;
+  color: var(--ink);
+  margin-bottom: 0.85rem;
 }
 
 .about-headline {
-  font-size: 19px;
-  font-weight: 600;
-  color: #333;
-  line-height: 1.35;
-  margin-bottom: 24px;
-}
-
-/* Thinking dots in the headline */
-.thinking-dots span {
-  opacity: 0.25;
-  animation: thinking 1.8s ease-in-out infinite;
-}
-
-.thinking-dots span:nth-child(2) {
-  animation-delay: 0.3s;
-}
-
-.thinking-dots span:nth-child(3) {
-  animation-delay: 0.6s;
-}
-
-@keyframes thinking {
-  0%,
-  60%,
-  100% {
-    opacity: 0.25;
-  }
-  30% {
-    opacity: 1;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .thinking-dots span {
-    animation: none;
-    opacity: 1;
-  }
+  font-family: var(--font-serif);
+  font-size: clamp(1.1rem, 2.6vw, 1.4rem);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.4;
+  color: var(--muted);
+  margin-bottom: 1.9rem;
 }
 
 .about-bio p {
-  font-size: 15px;
-  color: #444;
-  line-height: 1.65;
-  max-width: 680px;
-  margin-bottom: 16px;
+  font-size: 1rem;
+  color: var(--ink-soft);
+  line-height: 1.72;
+  max-width: var(--measure);
+  margin-bottom: 1rem;
 }
 
 .about-bio p:last-child {
@@ -176,48 +258,39 @@ body {
 
 .about-bio strong {
   font-weight: 600;
-  color: #000;
-}
-
-.about-skills {
-  margin-top: 20px;
-  font-size: 13px;
-  color: #888;
-  letter-spacing: 0.01em;
+  color: var(--ink);
 }
 
 .about-links {
-  margin-top: 20px;
-  font-size: 13px;
+  margin-top: 1.9rem;
+  font-size: 0.85rem;
   display: flex;
-  gap: 20px;
+  gap: 1.4rem;
 }
 
 .about-links a {
-  color: #666;
+  color: var(--muted);
   text-decoration: none;
   border-bottom: 1px solid transparent;
-  transition: border-color 0.15s, color 0.15s;
+  transition: color 0.15s, border-color 0.15s;
 }
 
 .about-links a:hover {
-  color: #000;
-  border-bottom-color: #000;
+  color: var(--ink);
+  border-bottom-color: var(--accent);
 }
 
-/* Work section */
-.page section + section {
-  margin-top: 72px;
-}
-
+/* ============================================================
+   Work list
+   ============================================================ */
 .work-list {
   list-style: none;
+  max-width: var(--measure);
 }
 
 .work-item {
-  max-width: 680px;
-  padding: 20px 0;
-  border-bottom: 1px solid #f0f0f0;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--rule);
 }
 
 .work-item:first-child {
@@ -228,13 +301,13 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  margin-bottom: 6px;
+  margin-bottom: 0.4rem;
 }
 
 .work-item-name {
-  font-size: 15px;
+  font-size: 1rem;
   font-weight: 600;
-  color: #000;
+  color: var(--ink);
 }
 
 .work-item-name-link {
@@ -244,54 +317,69 @@ body {
 }
 
 .work-item-name-link:hover {
-  border-bottom-color: #000;
+  border-bottom-color: var(--accent);
 }
 
 .work-item-year {
-  font-size: 13px;
-  font-weight: 400;
-  color: #bbb;
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--faint);
   flex-shrink: 0;
-  margin-left: 16px;
+  margin-left: 1rem;
 }
 
 .work-item-description {
-  font-size: 14px;
-  color: #555;
-  line-height: 1.6;
-  max-width: 680px;
-  margin-bottom: 8px;
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+  line-height: 1.62;
+  max-width: var(--measure);
+  margin-bottom: 0.5rem;
 }
 
 .work-item-link {
-  font-size: 12px;
-  color: #767676;
+  font-size: 0.78rem;
+  font-family: var(--font-mono);
+  color: var(--muted);
   text-decoration: none;
   border-bottom: 1px solid transparent;
   transition: color 0.15s, border-color 0.15s;
 }
 
 .work-item-link:hover {
-  color: #444;
-  border-bottom-color: #444;
+  color: var(--accent);
+  border-bottom-color: var(--accent);
 }
 
-/* Responsive */
+/* ============================================================
+   Footer
+   ============================================================ */
+.site-footer {
+  margin-top: 5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rule);
+  font-size: 0.78rem;
+  color: var(--faint);
+  max-width: var(--measure);
+}
+
+.site-footer .dot {
+  color: var(--accent);
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
 @media (max-width: 640px) {
   .container {
-    padding: 0 24px;
+    padding: 0 1.5rem;
   }
 
   .page {
-    padding-top: 40px;
-    padding-bottom: 64px;
+    padding-top: 2.75rem;
+    padding-bottom: 4rem;
   }
 
-  .top-rule {
-    margin-bottom: 36px;
-  }
-
-  .about-headline {
-    font-size: 24px;
+  .page section + section {
+    margin-top: 3.5rem;
   }
 }

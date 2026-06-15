@@ -9,15 +9,24 @@ const headlineBase = about.headline.replace(/\.$/, "");
 
 /** Phrase to bold wherever it appears in the bio. */
 const highlight = "AI-native product engineer";
+
+/** Stagger delay for the generative reveal, rounded to avoid float noise. */
+const delay = (n: number) => `${Math.round(n * 100) / 100}s`;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <!-- Enable the generative reveal before first paint; no-JS shows everything immediately. -->
+    <script is:inline>
+      document.documentElement.classList.add("js");
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#fcfcfa" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#131312" media="(prefers-color-scheme: dark)" />
     <meta
       name="description"
       content="Raja Sekar — Staff Engineer building AI-native product experiences end-to-end."
@@ -36,8 +45,9 @@ const highlight = "AI-native product engineer";
 
         <!-- Human / AI version toggle -->
         <div class="version-toggle" role="group" aria-label="Page version">
-          <button type="button" id="human-toggle" class="version-button is-active" aria-pressed="true">Human</button>
-          <button type="button" id="ai-toggle" class="version-button" aria-pressed="false">AI</button>
+          <button type="button" id="human-toggle" class="version-button is-active" aria-pressed="true">human</button>
+          <span class="version-sep" aria-hidden="true">/</span>
+          <button type="button" id="ai-toggle" class="version-button" aria-pressed="false">ai</button>
         </div>
 
         <!-- AI version: plain markdown for language models -->
@@ -51,25 +61,25 @@ const highlight = "AI-native product engineer";
         <div id="human-view">
         <!-- About section -->
         <section aria-labelledby="about-heading">
-          <h1 id="about-heading" class="about-greeting">{about.greeting}</h1>
-          <h2 class="about-headline">
-            {headlineBase} <span class="thinking-dots" aria-hidden="true"><span>.</span><span>.</span><span>.</span></span>
+          <h1 id="about-heading" class="about-greeting" data-reveal style="--d:0s">{about.greeting}</h1>
+          <h2 class="about-headline" data-reveal style="--d:0.12s">
+            {headlineBase} <span class="cursor" aria-hidden="true"></span>
           </h2>
           <div class="about-bio">
             {
-              about.bio.map((paragraph) => (
-                <p>
-                  {paragraph.split(highlight).map((part, i, parts) => (
+              about.bio.map((paragraph, i) => (
+                <p data-reveal style={`--d:${delay(0.24 + i * 0.1)}`}>
+                  {paragraph.split(highlight).map((part, j, parts) => (
                     <>
                       {part}
-                      {i < parts.length - 1 && <strong>{highlight}</strong>}
+                      {j < parts.length - 1 && <strong>{highlight}</strong>}
                     </>
                   ))}
                 </p>
               ))
             }
           </div>
-          <nav class="about-links" aria-label="Social links">
+          <nav class="about-links" aria-label="Social links" data-reveal style={`--d:${delay(0.24 + about.bio.length * 0.1)}`}>
             <a href={about.links.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
             <a href={about.links.github} target="_blank" rel="noopener noreferrer">GitHub</a>
           </nav>
@@ -77,7 +87,7 @@ const highlight = "AI-native product engineer";
 
 
         <!-- Work section -->
-        <section aria-labelledby="work-heading">
+        <section aria-labelledby="work-heading" data-reveal style={`--d:${delay(0.34 + about.bio.length * 0.1)}`}>
           <h2 class="section-label" id="work-heading">Projects</h2>
           <ul class="work-list" role="list">
             {
@@ -110,6 +120,10 @@ const highlight = "AI-native product engineer";
           </ul>
         </section>
         </div>
+
+        <footer class="site-footer">
+          <span class="dot">●</span> Designed and built by a human and a few language models.
+        </footer>
       </main>
     </div>
 

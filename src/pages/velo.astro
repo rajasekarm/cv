@@ -40,6 +40,8 @@ const commands = [
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#fcfcfa" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#131312" media="(prefers-color-scheme: dark)" />
     <meta
       name="description"
       content="velo — an engineering team for Claude Code. A gated pipeline that takes a brief from PRD to commit."
@@ -55,6 +57,7 @@ const commands = [
   <body>
     <div class="container">
       <main class="page">
+        <a class="back-link" href="/">&larr; rajasekar</a>
         <section aria-labelledby="velo-heading">
           <h1 id="velo-heading" class="about-greeting">velo</h1>
           <h2 class="about-headline">An engineering team for Claude Code.</h2>
@@ -150,17 +153,17 @@ const commands = [
 <style>
   .back-link {
     display: inline-block;
-    font-size: 13px;
-    color: #767676;
+    font-size: 0.82rem;
+    color: var(--muted);
     text-decoration: none;
-    margin-bottom: 48px;
+    margin-bottom: 3rem;
     border-bottom: 1px solid transparent;
     transition: color 0.15s, border-color 0.15s;
   }
 
   .back-link:hover {
-    color: #000;
-    border-bottom-color: #000;
+    color: var(--ink);
+    border-bottom-color: var(--accent);
   }
 
   /* Stat row */
@@ -168,120 +171,121 @@ const commands = [
     list-style: none;
     display: flex;
     flex-wrap: wrap;
-    gap: 40px;
-    margin-top: 28px;
-    max-width: 680px;
+    gap: 2.5rem;
+    margin-top: 1.75rem;
+    max-width: var(--measure);
   }
 
   .stat {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 0.25rem;
   }
 
   .stat-value {
-    font-size: 22px;
-    font-weight: 700;
-    color: #000;
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--ink);
     line-height: 1;
   }
 
   .stat-label {
-    font-size: 12px;
-    color: #888;
+    font-size: 0.75rem;
+    color: var(--muted);
   }
 
   /* Section lede */
   .section-lede {
-    font-size: 15px;
-    color: #444;
+    font-size: 0.95rem;
+    color: var(--ink-soft);
     line-height: 1.6;
-    max-width: 680px;
-    margin-top: -8px;
-    margin-bottom: 24px;
+    max-width: var(--measure);
+    margin-top: -0.5rem;
+    margin-bottom: 1.5rem;
   }
 
   /* Definition rows (pipeline / team / commands) */
   .def-list {
     list-style: none;
-    max-width: 680px;
+    max-width: var(--measure);
   }
 
   .def-row {
     display: grid;
     grid-template-columns: 200px 1fr;
-    gap: 24px;
-    padding: 16px 0;
-    border-bottom: 1px solid #f0f0f0;
+    gap: 1.5rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--rule);
   }
 
   .def-row:first-child {
-    border-top: 1px solid #f0f0f0;
+    border-top: 1px solid var(--rule);
   }
 
   .def-term {
-    font-size: 15px;
+    font-size: 0.95rem;
     font-weight: 600;
-    color: #000;
+    color: var(--ink);
   }
 
   .def-index {
     display: inline-block;
     width: 28px;
     font-variant-numeric: tabular-nums;
-    color: #bbb;
+    color: var(--accent);
     font-weight: 400;
   }
 
   .def-cmd {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size: 14px;
+    font-family: var(--font-mono);
+    font-size: 0.88rem;
   }
 
   .def-desc {
-    font-size: 14px;
-    color: #555;
+    font-size: 0.88rem;
+    color: var(--ink-soft);
     line-height: 1.55;
   }
 
   /* Install */
   .install {
-    max-width: 680px;
-    background: #f6f6f6;
-    border: 1px solid #ececec;
-    border-radius: 6px;
-    padding: 14px 16px;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size: 14px;
-    color: #111;
+    max-width: var(--measure);
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 0.9rem 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.88rem;
+    color: var(--ink);
     overflow-x: auto;
   }
 
   .repo-link {
-    margin-top: 20px;
-    font-size: 13px;
+    margin-top: 1.25rem;
+    font-size: 0.82rem;
   }
 
   .repo-link a {
-    color: #767676;
+    color: var(--muted);
     text-decoration: none;
     border-bottom: 1px solid transparent;
     transition: color 0.15s, border-color 0.15s;
   }
 
   .repo-link a:hover {
-    color: #000;
-    border-bottom-color: #000;
+    color: var(--ink);
+    border-bottom-color: var(--accent);
   }
 
   @media (max-width: 640px) {
     .def-row {
       grid-template-columns: 1fr;
-      gap: 6px;
+      gap: 0.4rem;
     }
 
     .stat-row {
-      gap: 28px;
+      gap: 1.75rem;
     }
   }
 </style>
